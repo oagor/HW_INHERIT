@@ -1,36 +1,31 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TasksTest {
 
     @Test
-    public void shouldMatchSimpleTaskByTitle() {
+    void shouldMatchSimpleTaskByTitle() {
         SimpleTask task = new SimpleTask(1, "Позвонить родителям");
 
-        Assertions.assertTrue(task.matches("родителям"));
-        Assertions.assertFalse(task.matches("покупки"));
+        assertTrue(task.matches("родителям"));
+        assertFalse(task.matches("магазин"));
     }
 
     @Test
-    public void shouldMatchEpicBySubtasks() {
-        String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
-        Epic epic = new Epic(2, subtasks);
+    void shouldMatchEpicBySubtasks() {
+        Epic epic = new Epic(2, new String[]{"Молоко", "Яйца", "Хлеб"});
 
-        Assertions.assertTrue(epic.matches("Яйца"));
-        Assertions.assertFalse(epic.matches("Сыр"));
+        assertTrue(epic.matches("Яйца"));
+        assertFalse(epic.matches("Кофе"));
     }
 
     @Test
-    public void shouldMatchMeetingByTopicOrProject() {
-        Meeting meeting = new Meeting(
-                3,
-                "Выкатка 3й версии приложения",
-                "Приложение НетоБанка",
-                "Во вторник после обеда"
-        );
+    void shouldMatchMeetingByTopicOrProject() {
+        Meeting meeting = new Meeting(3, "Выкатка версии", "Приложение НетоБанка", "Во вторник");
 
-        Assertions.assertTrue(meeting.matches("Выкатка"));
-        Assertions.assertTrue(meeting.matches("НетоБанка"));
-        Assertions.assertFalse(meeting.matches("суббота"));
+        assertTrue(meeting.matches("Выкатка"));
+        assertTrue(meeting.matches("НетоБанка"));
+        assertFalse(meeting.matches("Пятница"));
     }
 }
